@@ -4,6 +4,8 @@ import 'package:day_7/navigation/bottomNav.dart';
 import 'package:day_7/navigation/tabBarNav.dart';
 import 'package:day_7/screens/categories.dart';
 import 'package:day_7/screens/home.dart';
+import 'package:day_7/screens/movie_screen.dart';
+import 'package:day_7/screens/product_details.dart';
 import 'package:day_7/screens/product_list.dart';
 import 'package:day_7/screens/settings.dart';
 import 'package:flutter/material.dart';
@@ -19,15 +21,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: TabBarExample()
+      // home: TabBarExample()
       // BottomNavigationBarDemo(),
-      // initialRoute: '/',
-      // routes: {
-      //   '/': (context) => HomePage(),
-      //   'settings': (context) => SettingPage(),
-      //   'categories': (context) => CategoriesPage(),
-      //   'products': (context) => ProductListPage(),
-      // },
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomePage(),
+        'settings': (context) => SettingPage(),
+        'categories': (context) => CategoriesPage(),
+        'products': (context) => ProductListPage(),
+        'movies': (context) => MovieListPage(),
+
+        // 'productDetails': (context) => ProductDetailsScreen(),
+       
+        
+      },
     );
   }
 }

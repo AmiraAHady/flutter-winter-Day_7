@@ -36,10 +36,17 @@ class HomePage extends StatelessWidget {
                 height: 10,
               ),
               ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('products');
-                  },
-                  child: Text('Go to ProductList')),
+                onPressed: () {
+                  Navigator.of(context).pushNamed('products');
+                },
+                child: Text('Go to ProductList'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('movies');
+                },
+                child: Text('Go to Movies'),
+              ),
             ],
           ),
         ),

@@ -6,22 +6,48 @@ import 'package:day_7/model/movie.dart';
 import 'package:day_7/model/product.dart';
 import 'package:flutter/material.dart';
 
-class ProductListPage extends StatefulWidget {
-  const ProductListPage({super.key});
+class MovieListPage extends StatefulWidget {
+  const MovieListPage({super.key});
 
   @override
-  State<ProductListPage> createState() => _ProductListPageState();
+  State<MovieListPage> createState() => _MovieListPageState();
 }
 
 // LifeCyclehooks
-class _ProductListPageState extends State<ProductListPage> {
-  late Future<List<Product>> products;
-
+class _MovieListPageState extends State<MovieListPage> {
+  late Future<List<Movie>> movies;
+  final ScrollController _scrollController = ScrollController();
+  int currentPage = 1;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    products = ApiService().getProducts();
+    movies = ApiService().getMovies(currentPage);
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent) {
+        getMoreMovies();
+      } else if (_scrollController.position.pixels <=
+          _scrollController.position.minScrollExtent) {
+        getBeforeMovies();
+      }
+    });
+  }
+
+  void getMoreMovies() {
+    setState(() {
+      currentPage++;
+      movies = ApiService().getMovies(currentPage);
+    });
+  }
+
+  void getBeforeMovies() {
+    setState(() {
+      if (currentPage > 1) {
+        currentPage--;
+        movies = ApiService().getMovies(currentPage);
+      }
+    });
   }
 
   @override
@@ -31,8 +57,8 @@ class _ProductListPageState extends State<ProductListPage> {
         backgroundColor: Colors.amber,
         title: Text('ProductList Page'),
       ),
-      body: FutureBuilder<List<Product>>(
-        future: products,
+      body: FutureBuilder<List<Movie>>(
+        future: movies,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -46,22 +72,15 @@ class _ProductListPageState extends State<ProductListPage> {
             );
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(
-              child: Text('No Product avaliable'),
+              child: Text('No Movies avaliable'),
             );
           }
           return ListView.builder(
+            controller: _scrollController,
             itemBuilder: (context, index) {
-              final product = snapshot.data![index];
+              final movie = snapshot.data![index];
               return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ProductDetailsScreen(
-                              productId: product.id,
-                            )),
-                  );
-                },
+                onTap: () {},
                 child: Card(
                   margin: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
                   shape: RoundedRectangleBorder(
@@ -74,7 +93,8 @@ class _ProductListPageState extends State<ProductListPage> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             image: DecorationImage(
-                              image: NetworkImage(product.image),
+                              image: NetworkImage(
+                                  'https://image.tmdb.org/t/p/w500${movie.posterPath}'),
                               fit: BoxFit.cover,
                             )),
                       ),
@@ -86,7 +106,7 @@ class _ProductListPageState extends State<ProductListPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${product.title}',
+                            movie.title,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -98,10 +118,12 @@ class _ProductListPageState extends State<ProductListPage> {
                             height: 5,
                           ),
                           Text(
-                            '\$${product.price}',
+                            movie.overview,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.green,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
                             ),
                           )
                         ],
