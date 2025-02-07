@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 class FirebaseService {
   final Dio _dio = Dio();
   final String baseUrl =
-      'https://flutter-winter2025-default-rtdb.firebaseio.com/';
+      'your firebaselink';
 
   Future<void> addProduct(Map<String, dynamic> productData) async {
     try {
