@@ -47,6 +47,12 @@ class HomePage extends StatelessWidget {
                 },
                 child: Text('Go to Movies'),
               ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('productDashbord');
+                },
+                child: Text('Go to Dashbord'),
+              ),
             ],
           ),
         ),

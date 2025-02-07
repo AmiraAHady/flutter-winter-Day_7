@@ -5,6 +5,7 @@ import 'package:day_7/navigation/tabBarNav.dart';
 import 'package:day_7/screens/categories.dart';
 import 'package:day_7/screens/home.dart';
 import 'package:day_7/screens/movie_screen.dart';
+import 'package:day_7/screens/product-dashbord.dart';
 import 'package:day_7/screens/product_details.dart';
 import 'package:day_7/screens/product_list.dart';
 import 'package:day_7/screens/settings.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         'categories': (context) => CategoriesPage(),
         'products': (context) => ProductListPage(),
         'movies': (context) => MovieListPage(),
+        'productDashbord': (context) => ProductDashbord(),
 
         // 'productDetails': (context) => ProductDetailsScreen(),
        
